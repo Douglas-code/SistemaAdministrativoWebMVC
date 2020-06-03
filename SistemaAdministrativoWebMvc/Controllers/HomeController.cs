@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SistemaAdministrativoWebMvc.Models;
+using SistemaAdministrativoWebMvc.Models.ViewModels;
 
 namespace SistemaAdministrativoWebMvc.Controllers
 {
@@ -21,7 +21,7 @@ namespace SistemaAdministrativoWebMvc.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Sistema administrativo web MVC app coma asp net core mvc";
+            ViewData["Message"] = "Sistema administrativo web MVC app com asp net core mvc";
             ViewData["Email"] = "Teste@gmail.com";
 
             return View();
