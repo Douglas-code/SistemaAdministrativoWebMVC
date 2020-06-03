@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SistemaAdministrativoWebMvc.Models;
@@ -20,6 +16,14 @@ namespace SistemaAdministrativoWebMvc.Controllers
 
         public IActionResult Index()
         {
+            return View();
+        }
+
+        public IActionResult About()
+        {
+            ViewData["Message"] = "Sistema administrativo web MVC app coma asp net core mvc";
+            ViewData["Email"] = "Teste@gmail.com";
+
             return View();
         }
 
