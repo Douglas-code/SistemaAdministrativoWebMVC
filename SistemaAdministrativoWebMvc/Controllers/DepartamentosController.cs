@@ -8,11 +8,7 @@ namespace SistemaAdministrativoWebMvc.Controllers
     {
         public IActionResult Index()
         {
-            List<Departamento> departamentos = new List<Departamento>();
-            departamentos.Add(new Departamento(1, "Eletronicos"));
-            departamentos.Add(new Departamento(2, "Moda"));
-
-            return View(departamentos);
+            return View();
         }
     }
 }

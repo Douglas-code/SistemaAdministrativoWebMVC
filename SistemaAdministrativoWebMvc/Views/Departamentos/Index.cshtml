@@ -19,6 +19,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Nome)
             </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -30,6 +31,10 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    <button class="btn btn-warning btn-sm"> <span class="fa fa-edit"></span></button>
+                    <button class="btn btn-danger btn-sm"> <span class="fa fa-trash"></span></button>
                 </td>
             </tr>
         }

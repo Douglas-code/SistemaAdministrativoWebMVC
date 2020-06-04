@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SistemaAdministrativoWebMvc.Models.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace SistemaAdministrativoWebMvc
 {
@@ -24,6 +26,10 @@ namespace SistemaAdministrativoWebMvc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<SisAdminMvcContext>(options =>
+             options.UseMySql(Configuration.GetConnectionString("SisAdminMvcContext")));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
