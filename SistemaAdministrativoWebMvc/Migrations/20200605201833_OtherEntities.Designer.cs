@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SistemaAdministrativoWebMvc.Models.Data;
 
 namespace SistemaAdministrativoWebMvc.Migrations
 {
     [DbContext(typeof(SisAdminMvcContext))]
-    partial class SisAdminMvcContextModelSnapshot : ModelSnapshot
+    [Migration("20200605201833_OtherEntities")]
+    partial class OtherEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,7 +83,7 @@ namespace SistemaAdministrativoWebMvc.Migrations
 
                     b.HasIndex("DepartamentoId");
 
-                    b.ToTable("Vendedors");
+                    b.ToTable("Vendedor");
                 });
 
             modelBuilder.Entity("SistemaAdministrativoWebMvc.Models.RegistroVendas", b =>

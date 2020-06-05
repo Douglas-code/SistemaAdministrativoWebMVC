@@ -6,6 +6,8 @@ namespace SistemaAdministrativoWebMvc.Models.Data
     {
         public SisAdminMvcContext(DbContextOptions<SisAdminMvcContext> options) : base(options) { }
 
-        public DbSet<SistemaAdministrativoWebMvc.Models.Departamento> Departamento { get; set; }
+        public DbSet<Departamento> Departamento { get; set; }
+        public DbSet<Vendedor> Vendedor{get; set;}
+        public DbSet<RegistroVendas> RegistroVendas {get; set;}
     }
 }
