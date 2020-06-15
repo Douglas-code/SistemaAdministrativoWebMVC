@@ -30,7 +30,7 @@ namespace SistemaAdministrativoWebMvc
             services.AddDbContext<SisAdminMvcContext>(options =>
              options.UseMySql(Configuration.GetConnectionString("SisAdminMvcContext")));
 
-             services.AddScoped<SeedingService>();
+            services.AddScoped<SeedingService>();
 
         }
 
