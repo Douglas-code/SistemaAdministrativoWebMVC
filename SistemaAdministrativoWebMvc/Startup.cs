@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SistemaAdministrativoWebMvc.Models.Data;
 using Microsoft.EntityFrameworkCore;
+using SistemaAdministrativoWebMvc.Models.Services;
 
 namespace SistemaAdministrativoWebMvc
 {
@@ -31,6 +32,7 @@ namespace SistemaAdministrativoWebMvc
              options.UseMySql(Configuration.GetConnectionString("SisAdminMvcContext")));
 
             services.AddScoped<SeedingService>();
+            services.AddScoped<VendedorService>();
 
         }
 

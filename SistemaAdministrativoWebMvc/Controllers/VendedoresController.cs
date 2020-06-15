@@ -1,21 +1,22 @@
 using Microsoft.AspNetCore.Mvc;
-using SistemaAdministrativoWebMvc.Models.Data;
-using System.Linq;
+using SistemaAdministrativoWebMvc.Models.Services;
 
 namespace SistemaAdministrativoWebMvc.Controllers
 {
     public class VendedoresController : Controller
     {
-        private readonly SisAdminMvcContext _context;
+        private VendedorService _vendedorService;
 
-        public VendedoresController(SisAdminMvcContext context)
+        public VendedoresController(VendedorService vendedorService)
         {
-            _context = context;
+            _vendedorService = vendedorService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var list = _vendedorService.ListarVendedores();
+
+            return View(list);
         }
     }
 }
