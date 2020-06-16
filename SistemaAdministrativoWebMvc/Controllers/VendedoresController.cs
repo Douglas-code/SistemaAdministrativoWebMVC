@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SistemaAdministrativoWebMvc.Models.Services;
+using SistemaAdministrativoWebMvc.Models;
 
 namespace SistemaAdministrativoWebMvc.Controllers
 {
@@ -17,6 +18,20 @@ namespace SistemaAdministrativoWebMvc.Controllers
             var list = _vendedorService.ListarVendedores();
 
             return View(list);
+        }
+
+        public IActionResult CadVendedor()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CadVendedor(Vendedor vendedor)
+        {
+            _vendedorService.Inserir(vendedor);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
