@@ -1,24 +1,38 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using SistemaAdministrativoWebMvc.Models.Data;
-using System.Linq;
+using SistemaAdministrativoWebMvc.Models.Services;
+using SistemaAdministrativoWebMvc.Models;
 
 namespace SistemaAdministrativoWebMvc.Controllers
 {
     public class DepartamentosController : Controller
     {
-        private readonly SisAdminMvcContext _context;
+        private readonly DepartamentoService _departamentoService;
 
-        public DepartamentosController(SisAdminMvcContext context)
+        public DepartamentosController(DepartamentoService departamentoService)
         {
-            _context = context;
+            _departamentoService = departamentoService;
         }
 
         public IActionResult Index()
         {
-            var departamentos = _context.Departamento.Where(d => d.Id > 0).ToList();
-            
-            return View(departamentos);
+            var list = _departamentoService.ListarDepartamentos();
+
+            return View(list);
+        }
+
+        public IActionResult CadDepartamento()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CadDepartamento(Departamento departamento)
+        {
+            _departamentoService.Inserir(departamento);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

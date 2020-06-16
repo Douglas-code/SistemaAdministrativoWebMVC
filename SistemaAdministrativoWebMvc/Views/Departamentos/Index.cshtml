@@ -6,10 +6,6 @@
 
 <h2>Departamentos</h2>
 
-<p>
-    <button  class="btn btn-primary btn-sm" asp-action="Create">Create new</button>
-</p>
-
 <table class="table">
     <thead>
         <tr>
@@ -19,7 +15,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Nome)
             </th>
-            <th></th>
+            <th><a class="btn btn-primary btn-sm" asp-action="CadDepartamento">Adicionar</a></th>
         </tr>
     </thead>
     <tbody>
