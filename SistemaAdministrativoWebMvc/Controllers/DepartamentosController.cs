@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using SistemaAdministrativoWebMvc.Models.Services;
 using SistemaAdministrativoWebMvc.Models;
