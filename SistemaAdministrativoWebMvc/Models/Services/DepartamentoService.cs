@@ -15,7 +15,7 @@ namespace SistemaAdministrativoWebMvc.Models.Services
 
         public List<Departamento> ListarDepartamentos()
         {
-            return _context.Departamento.ToList();
+            return _context.Departamento.OrderBy(d => d.Nome).ToList();
         }
 
         public void Inserir(Departamento obj)

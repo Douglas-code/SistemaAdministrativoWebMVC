@@ -1,16 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
 using SistemaAdministrativoWebMvc.Models.Services;
 using SistemaAdministrativoWebMvc.Models;
+using SistemaAdministrativoWebMvc.Models.ViewModels;
 
 namespace SistemaAdministrativoWebMvc.Controllers
 {
     public class VendedoresController : Controller
     {
-        private VendedorService _vendedorService;
+        private readonly VendedorService _vendedorService;
+        private readonly DepartamentoService _departamentoService;
 
-        public VendedoresController(VendedorService vendedorService)
+        public VendedoresController(VendedorService vendedorService, DepartamentoService departamentoService)
         {
             _vendedorService = vendedorService;
+            _departamentoService = departamentoService;
         }
 
         public IActionResult Index()
@@ -22,7 +25,10 @@ namespace SistemaAdministrativoWebMvc.Controllers
 
         public IActionResult CadVendedor()
         {
-            return View();
+            var departamentos = _departamentoService.ListarDepartamentos();
+            var viewModel = new VendedorFormViewModel { Departamentos = departamentos };
+            
+            return View(viewModel);
         }
 
         [HttpPost]
