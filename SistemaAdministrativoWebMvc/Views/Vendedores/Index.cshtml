@@ -43,8 +43,8 @@
                     @Html.DisplayFor(modelItem => item.SalarioBase)
                 </td>
                 <td>
-                    <button class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@item.Id"> <span class="fa fa-edit"></span></button>
-                    <button class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id"> <span class="fa fa-trash"></span></button>
+                    <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@item.Id"> <span class="fa fa-edit"></span></a>
+                    <a class="btn btn-danger btn-sm" asp-action="DeleteVendedor" asp-route-id="@item.Id"> <span class="fa fa-trash"></span></a>
                 </td>
             </tr>
         }

@@ -27,7 +27,7 @@ namespace SistemaAdministrativoWebMvc.Controllers
         {
             var departamentos = _departamentoService.ListarDepartamentos();
             var viewModel = new VendedorFormViewModel { Departamentos = departamentos };
-            
+
             return View(viewModel);
         }
 
@@ -37,6 +37,31 @@ namespace SistemaAdministrativoWebMvc.Controllers
         {
             _vendedorService.Inserir(vendedor);
 
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult DeleteVendedor(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var obj = _vendedorService.BuscarPorId(id.Value);
+
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            return View(obj);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteVendedor(int id)
+        {
+            _vendedorService.Remover(id);
             return RedirectToAction(nameof(Index));
         }
     }
