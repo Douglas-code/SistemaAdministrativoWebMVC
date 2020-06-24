@@ -23,5 +23,17 @@ namespace SistemaAdministrativoWebMvc.Models.Services
             _context.Add(obj);
             _context.SaveChanges();
         }
+
+        public Departamento BuscaPorId(int id)
+        {
+            return _context.Departamento.FirstOrDefault(obj => obj.Id == id);
+        }
+
+        public void Remover(int id)
+        {
+            var obj = _context.Departamento.Find(id);
+            _context.Departamento.Remove(obj);
+            _context.SaveChanges();
+        }
     }
 }
