@@ -16,7 +16,7 @@ namespace SistemaAdministrativoWebMvc.Models.Services
 
         public List<Vendedor> ListarVendedores()
         {
-            return _context.Vendedor.ToList();
+            return _context.Vendedor.OrderBy(obj => obj.Id).ToList();
         }
 
         public void Inserir(Vendedor obj)
