@@ -1,6 +1,8 @@
 using SistemaAdministrativoWebMvc.Models.Data;
 using System.Collections.Generic;
 using System.Linq;
+using SistemaAdministrativoWebMvc.Models.Services.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace SistemaAdministrativoWebMvc.Models.Services
 {
@@ -34,6 +36,24 @@ namespace SistemaAdministrativoWebMvc.Models.Services
             var obj = _context.Departamento.Find(id);
             _context.Departamento.Remove(obj);
             _context.SaveChanges();
+        }
+
+        public void Atualizar(Departamento obj)
+        {
+            if (!(_context.Departamento.Any(x => x.Id == obj.Id)))
+            {
+                throw new NotFoundException("Id nao encontrado");
+            }
+
+            try
+            {
+                _context.Departamento.Update(obj);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new DbConcurrencyException(e.Message);
+            }
         }
     }
 }
