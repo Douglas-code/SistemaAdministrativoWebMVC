@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using SistemaAdministrativoWebMvc.Models.Services;
 using SistemaAdministrativoWebMvc.Models;
 using SistemaAdministrativoWebMvc.Models.ViewModels;
+using SistemaAdministrativoWebMvc.Models.Services.Exceptions;
 
 namespace SistemaAdministrativoWebMvc.Controllers
 {
@@ -80,6 +82,51 @@ namespace SistemaAdministrativoWebMvc.Controllers
             }
 
             return View(obj);
+        }
+
+        public IActionResult EditarVendedor(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var obj = _vendedorService.BuscarPorId(id.Value);
+
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            List<Departamento> departamentos = _departamentoService.ListarDepartamentos();
+
+            VendedorFormViewModel formViewModel = new VendedorFormViewModel
+            { Vendedor = obj, Departamentos = departamentos };
+
+            return View(formViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditarVendedor(int id, Vendedor vendedor)
+        {
+            if (id != vendedor.Id)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                _vendedorService.Atualizar(vendedor);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (DbConcurrencyException)
+            {
+                return BadRequest();
+            }
         }
     }
 }
