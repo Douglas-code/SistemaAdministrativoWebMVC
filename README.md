@@ -1,7 +1,7 @@
 # SisAdminMVC
 > Projeto de Administração de Vendedores e Departamentos.
 
-![](./Peek 25-06-2020 17-21.gif)
+![]('Peek 25-06-2020 17-21.gif')
 
 ## Exemplo de uso
 

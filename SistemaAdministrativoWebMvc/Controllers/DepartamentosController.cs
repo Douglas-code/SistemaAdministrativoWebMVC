@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using SistemaAdministrativoWebMvc.Models.Services;
 using SistemaAdministrativoWebMvc.Models.Services.Exceptions;
 using SistemaAdministrativoWebMvc.Models;
+using SistemaAdministrativoWebMvc.Models.ViewModels;
+using System.Diagnostics;
 
 namespace SistemaAdministrativoWebMvc.Controllers
 {
@@ -39,14 +41,15 @@ namespace SistemaAdministrativoWebMvc.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "O ID não foi informado" });
             }
 
             var obj = _departamentoService.BuscaPorId(id.Value);
 
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "O ID não encontrado" });
+
             }
 
             return View(obj);
@@ -65,13 +68,15 @@ namespace SistemaAdministrativoWebMvc.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "O ID não foi informado" });
+
             }
             var obj = _departamentoService.BuscaPorId(id.Value);
 
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "O ID não foi encontrado" });
+
             }
 
             return View(obj);
@@ -81,14 +86,14 @@ namespace SistemaAdministrativoWebMvc.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "O ID não foi informado" });
             }
 
             var obj = _departamentoService.BuscaPorId(id.Value);
 
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "O ID não foi encontrado" });
             }
 
             return View(obj);
@@ -100,7 +105,7 @@ namespace SistemaAdministrativoWebMvc.Controllers
         {
             if (id != departamento.Id)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Error), new { message = "Ids não correspodem" });
             }
 
             try
@@ -108,14 +113,25 @@ namespace SistemaAdministrativoWebMvc.Controllers
                 _departamentoService.Atualizar(departamento);
                 return RedirectToAction(nameof(Index));
             }
-            catch (NotFoundException)
+            catch (NotFoundException e)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
-            catch (DbConcurrencyException)
+            catch (DbConcurrencyException e)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
+        }
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+
+            return View(viewModel);
         }
     }
 }

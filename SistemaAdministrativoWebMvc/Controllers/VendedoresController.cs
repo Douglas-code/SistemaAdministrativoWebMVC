@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using SistemaAdministrativoWebMvc.Models.Services;
@@ -46,14 +48,14 @@ namespace SistemaAdministrativoWebMvc.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
             }
 
             var obj = _vendedorService.BuscarPorId(id.Value);
 
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
             }
 
             return View(obj);
@@ -63,6 +65,7 @@ namespace SistemaAdministrativoWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteVendedor(int id)
         {
+
             _vendedorService.Remover(id);
             return RedirectToAction(nameof(Index));
         }
@@ -71,14 +74,14 @@ namespace SistemaAdministrativoWebMvc.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
             }
 
             var obj = _vendedorService.BuscarPorId(id.Value);
 
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não Encontrado" });
             }
 
             return View(obj);
@@ -88,13 +91,13 @@ namespace SistemaAdministrativoWebMvc.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
             }
             var obj = _vendedorService.BuscarPorId(id.Value);
 
             if (obj == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
             }
 
             List<Departamento> departamentos = _departamentoService.ListarDepartamentos();
@@ -111,7 +114,7 @@ namespace SistemaAdministrativoWebMvc.Controllers
         {
             if (id != vendedor.Id)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Error), new { message = "Ids não correspodem" });
             }
 
             try
@@ -119,14 +122,25 @@ namespace SistemaAdministrativoWebMvc.Controllers
                 _vendedorService.Atualizar(vendedor);
                 return RedirectToAction(nameof(Index));
             }
-            catch (NotFoundException)
+            catch (NotFoundException e)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
-            catch (DbConcurrencyException)
+            catch (DbConcurrencyException e)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Error), new { message = e.Message });
             }
+        }
+
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+
+            return View(viewModel);
         }
     }
 }
