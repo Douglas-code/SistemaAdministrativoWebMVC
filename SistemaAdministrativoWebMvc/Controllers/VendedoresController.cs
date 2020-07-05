@@ -39,6 +39,14 @@ namespace SistemaAdministrativoWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CadVendedor(Vendedor vendedor)
         {
+            if (!ModelState.IsValid)
+            {
+                var departamentos = _departamentoService.ListarDepartamentos();
+                var viewModel = new VendedorFormViewModel { Vendedor = vendedor, Departamentos = departamentos };
+
+                return View(viewModel);
+            }
+
             _vendedorService.Inserir(vendedor);
 
             return RedirectToAction(nameof(Index));
@@ -112,6 +120,14 @@ namespace SistemaAdministrativoWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditarVendedor(int id, Vendedor vendedor)
         {
+            if (!ModelState.IsValid)
+            {
+                var departamentos = _departamentoService.ListarDepartamentos();
+                var viewModel = new VendedorFormViewModel { Vendedor = vendedor, Departamentos = departamentos };
+
+                return View(viewModel);
+            }
+
             if (id != vendedor.Id)
             {
                 return RedirectToAction(nameof(Error), new { message = "Ids não correspodem" });
