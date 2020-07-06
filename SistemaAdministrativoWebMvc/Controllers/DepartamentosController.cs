@@ -32,6 +32,11 @@ namespace SistemaAdministrativoWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CadDepartamento(Departamento departamento)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(departamento);
+            }
+
             _departamentoService.Inserir(departamento);
 
             return RedirectToAction(nameof(Index));
@@ -103,6 +108,11 @@ namespace SistemaAdministrativoWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditarDepartamento(int id, Departamento departamento)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(departamento);
+            }
+
             if (id != departamento.Id)
             {
                 return RedirectToAction(nameof(Error), new { message = "Ids não correspodem" });

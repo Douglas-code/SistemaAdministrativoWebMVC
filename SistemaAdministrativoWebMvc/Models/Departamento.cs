@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,9 @@ namespace SistemaAdministrativoWebMvc.Models
     public class Departamento
     {
         public int Id { get; set; }
+        [Display(Name = "Nome")]
+        [Required(ErrorMessage= "{0} é obrigatório")]
+        [StringLength(100, MinimumLength = 4, ErrorMessage = "{0} deve ter entre {2} e {1} caracteres")]
         public string Nome { get; set; }
         public ICollection<Vendedor> Vendedores { get; set; } = new List<Vendedor>();
 
