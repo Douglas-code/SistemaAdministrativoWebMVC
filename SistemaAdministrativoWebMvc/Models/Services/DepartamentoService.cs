@@ -35,9 +35,16 @@ namespace SistemaAdministrativoWebMvc.Models.Services
 
         public async Task Remover(int id)
         {
-            var obj = await _context.Departamento.FindAsync(id);
-            _context.Departamento.Remove(obj);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var obj = await _context.Departamento.FindAsync(id);
+                _context.Departamento.Remove(obj);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException e)
+            {
+                throw new IntegrityException(e.Message);
+            }
         }
 
         public async Task Atualizar(Departamento obj)
@@ -52,9 +59,9 @@ namespace SistemaAdministrativoWebMvc.Models.Services
                 _context.Departamento.Update(obj);
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException e)
+            catch (DbUpdateException)
             {
-                throw new DbConcurrencyException(e.Message);
+                throw new IntegrityException("Impossivel deletar esse departamento");
             }
         }
     }

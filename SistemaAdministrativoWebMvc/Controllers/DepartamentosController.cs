@@ -65,9 +65,16 @@ namespace SistemaAdministrativoWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteDepartamento(int id)
         {
-            await _departamentoService.Remover(id);
+            try
+            {
+                await _departamentoService.Remover(id);
 
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
+            }
+            catch (IntegrityException e)
+            {
+                return RedirectToAction(nameof(Error), new { message = e.Message });
+            }
         }
 
         public async Task<IActionResult> DetalhesDepartamento(int? id)
