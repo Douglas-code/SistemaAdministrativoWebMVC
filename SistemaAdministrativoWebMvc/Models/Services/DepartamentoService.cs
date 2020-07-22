@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using SistemaAdministrativoWebMvc.Models.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+
 
 namespace SistemaAdministrativoWebMvc.Models.Services
 {
@@ -15,32 +17,32 @@ namespace SistemaAdministrativoWebMvc.Models.Services
             _context = context;
         }
 
-        public List<Departamento> ListarDepartamentos()
+        public async Task<List<Departamento>> ListarDepartamentos()
         {
-            return _context.Departamento.ToList();
+            return await _context.Departamento.ToListAsync();
         }
 
-        public void Inserir(Departamento obj)
+        public async Task Inserir(Departamento obj)
         {
             _context.Add(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public Departamento BuscaPorId(int id)
+        public async Task<Departamento> BuscaPorId(int id)
         {
-            return _context.Departamento.FirstOrDefault(obj => obj.Id == id);
+            return await _context.Departamento.FirstOrDefaultAsync(obj => obj.Id == id);
         }
 
-        public void Remover(int id)
+        public async Task Remover(int id)
         {
-            var obj = _context.Departamento.Find(id);
+            var obj = await _context.Departamento.FindAsync(id);
             _context.Departamento.Remove(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Atualizar(Departamento obj)
+        public async Task Atualizar(Departamento obj)
         {
-            if (!(_context.Departamento.Any(x => x.Id == obj.Id)))
+            if (!(await _context.Departamento.AnyAsync(x => x.Id == obj.Id)))
             {
                 throw new NotFoundException("Id nao encontrado");
             }
@@ -48,7 +50,7 @@ namespace SistemaAdministrativoWebMvc.Models.Services
             try
             {
                 _context.Departamento.Update(obj);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException e)
             {

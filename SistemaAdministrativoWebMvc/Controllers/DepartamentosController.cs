@@ -4,6 +4,7 @@ using SistemaAdministrativoWebMvc.Models.Services.Exceptions;
 using SistemaAdministrativoWebMvc.Models;
 using SistemaAdministrativoWebMvc.Models.ViewModels;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace SistemaAdministrativoWebMvc.Controllers
 {
@@ -16,9 +17,9 @@ namespace SistemaAdministrativoWebMvc.Controllers
             _departamentoService = departamentoService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var list = _departamentoService.ListarDepartamentos();
+            var list = await _departamentoService.ListarDepartamentos();
 
             return View(list);
         }
@@ -30,26 +31,26 @@ namespace SistemaAdministrativoWebMvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CadDepartamento(Departamento departamento)
+        public async Task<IActionResult> CadDepartamento(Departamento departamento)
         {
             if (!ModelState.IsValid)
             {
                 return View(departamento);
             }
 
-            _departamentoService.Inserir(departamento);
+            await _departamentoService.Inserir(departamento);
 
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult DeleteDepartamento(int? id)
+        public async Task<IActionResult> DeleteDepartamento(int? id)
         {
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "O ID não foi informado" });
             }
 
-            var obj = _departamentoService.BuscaPorId(id.Value);
+            var obj = await _departamentoService.BuscaPorId(id.Value);
 
             if (obj == null)
             {
@@ -62,21 +63,21 @@ namespace SistemaAdministrativoWebMvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteDepartamento(int id)
+        public async Task<IActionResult> DeleteDepartamento(int id)
         {
-            _departamentoService.Remover(id);
+            await _departamentoService.Remover(id);
 
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult DetalhesDepartamento(int? id)
+        public async Task<IActionResult> DetalhesDepartamento(int? id)
         {
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "O ID não foi informado" });
 
             }
-            var obj = _departamentoService.BuscaPorId(id.Value);
+            var obj = await _departamentoService.BuscaPorId(id.Value);
 
             if (obj == null)
             {
@@ -87,14 +88,14 @@ namespace SistemaAdministrativoWebMvc.Controllers
             return View(obj);
         }
 
-        public IActionResult EditarDepartamento(int? id)
+        public async Task<IActionResult> EditarDepartamento(int? id)
         {
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "O ID não foi informado" });
             }
 
-            var obj = _departamentoService.BuscaPorId(id.Value);
+            var obj = await _departamentoService.BuscaPorId(id.Value);
 
             if (obj == null)
             {
@@ -106,7 +107,7 @@ namespace SistemaAdministrativoWebMvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditarDepartamento(int id, Departamento departamento)
+        public async Task<IActionResult> EditarDepartamento(int id, Departamento departamento)
         {
             if (!ModelState.IsValid)
             {
@@ -120,7 +121,7 @@ namespace SistemaAdministrativoWebMvc.Controllers
 
             try
             {
-                _departamentoService.Atualizar(departamento);
+                await _departamentoService.Atualizar(departamento);
                 return RedirectToAction(nameof(Index));
             }
             catch (NotFoundException e)
